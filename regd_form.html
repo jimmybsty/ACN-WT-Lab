@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .registration-form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    p.error-message {
+      color: red;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="registration-form">
+  <h2>Registration Form</h2>
+  <form  action="db.php" method="POST" id="registrationForm" onsubmit="return validateForm()">
+    <input type="text" id="name" placeholder="Name" name="name" required>
+    <select id="course" name="course" required>
+      <option value="" disabled selected>Select Course</option>
+      <option value="M.Sc CS">M.Sc CS</option>
+      <option value="M.Tech CSE">M.Tech CSE</option>
+      <option value="MBA">MBA</option>
+      <option value="MCA">MCA</option>
+      <option value="BCA">BCA</option>
+      <option value="B.Sc">B.Sc</option>
+      
+    </select>
+    <input type="tel" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" required>
+    <input type="email" id="email" placeholder="Email" name="email" required>
+    <input type="password" id="password" placeholder="Password" name="password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
+    <button type="submit" class="registerbtn" name="save">Register</button>
+  </form>
+</div>
+
+<script>
+  function validateForm() {
+    var name = document.getElementById("name").value;
+    var course = document.getElementById("course").value;
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    // Name validation: Should not contain numbers
+    if (/\d/.test(name)) {
+      showError("Name cannot contain numbers");
+      return false;
+    }
+
+    // Course validation: Ensure a course is selected
+    if (course === "") {
+      showError("Please select a course");
+      return false;
+    }
+
+    // Phone number validation: Should not contain characters
+    if (!/^\d+$/.test(phoneNumber)) {
+      showError("Phone number cannot contain characters");
+      return false;
+    }
+
+    // Email validation: Should contain @ sign
+    if (!email.includes("@")) {
+      showError("Invalid email address");
+      return false;
+    }
+
+    // Password validation: Should match confirm password
+    if (password !== confirmPassword) {
+      showError("Password and Confirm Password must match");
+      return false;
+    }
+
+    // Clear any previous error messages
+    clearError();
+    return true;
+  }
+
+  function showError(message) {
+    var errorMessage = document.createElement("p");
+    errorMessage.className = "error-message";
+    errorMessage.textContent = message;
+    document.getElementById("registrationForm").appendChild(errorMessage);
+  }
+
+  function clearError() {
+    var errorMessages = document.querySelectorAll(".error-message");
+    errorMessages.forEach(function (element) {
+      element.remove();
+    });
+  }
+</script>
+
+</body>
+</html>
